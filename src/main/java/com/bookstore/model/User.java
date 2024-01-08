@@ -35,7 +35,7 @@ public class User {
 	@Size(min = 10, message = "Minimum 10 charectors are required")
 	private String address;
 
-	@Column(columnDefinition = "default 'normalUser'")
+	@Column
 	private String userType = "normalUser";
 
 	
