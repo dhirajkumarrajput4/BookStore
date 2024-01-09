@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookstore.dao.BookDao;
@@ -31,10 +28,11 @@ import com.bookstore.service.SellBookService;
 import com.bookstore.service.UserService;
 
 @Controller
+@RequestMapping("/")
 public class MyController {
 	private static final String User = null;
 	
-	User sessionUser=new User();
+	com.bookstore.model.User sessionUser=new User();
 	
 	@Autowired
 	UserService userService;
@@ -65,13 +63,13 @@ public class MyController {
 	}
 
 	@ModelAttribute
-	public User createUser() {
+	public com.bookstore.model.User createUser() {
 		return new User();
 	}
 
 	@RequestMapping(value = "/registerform", method = RequestMethod.POST)
-	public String showRegister(@Valid @ModelAttribute("user") User user, BindingResult result,
-			HttpServletRequest request) throws IOException {
+	public String showRegister(@Valid @ModelAttribute("user") com.bookstore.model.User user, BindingResult result,
+							   HttpServletRequest request) throws IOException {
 		if (result.hasErrors()) {
 			return "register";
 		} else {
@@ -87,7 +85,7 @@ public class MyController {
 			Model model, HttpServletRequest request) {
 		System.out.println(Email);
 		System.out.println(Password);
-		User checkUser = this.userDao.checkUser(Email, Password);
+		com.bookstore.model.User checkUser = this.userDao.checkUser(Email, Password);
 		if (checkUser == null) {
 			request.getSession().setAttribute("msg", "Invailid Username or Password");
 			request.getSession().setAttribute("clss", "alert-danger");
@@ -165,7 +163,7 @@ public class MyController {
 
 	@RequestMapping("/")
 	public String getAllBook(Model model, HttpSession session) {
-		User user = null;
+		com.bookstore.model.User user = null;
 		model.addAttribute("user", user);
 		List<Book> books = bookService.getBooks();
 //		model.addAttribute("book1",new Book());
@@ -236,7 +234,7 @@ public class MyController {
 //return all users	
 	@RequestMapping("/users")
 	public String getAllUsers(Model model) {
-		List<User> Users = userService.getAllUsers();
+		List<com.bookstore.model.User> Users = userService.getAllUsers();
 		model.addAttribute("Users", Users);
 
 		return "viewUser";
@@ -247,7 +245,7 @@ public class MyController {
 	public ModelAndView getUserById(@PathVariable(name = "id") Integer uid, Model model) {
 		System.out.println("inside userdetails handler   " + uid);
 //		int Id=Integer.parseInt(uid);
-		User myuser = userDao.getById(uid);
+		com.bookstore.model.User myuser = userDao.getById(uid);
 
 		// System.out.println(myuser.getFirstName());
 
@@ -268,7 +266,7 @@ public class MyController {
 //	update User handler
 	@RequestMapping(value = "/userupdate/{id}")
 	public String updateUser(@PathVariable(name = "id") Integer id, Model model) {
-		User user = userDao.getById(id);
+		com.bookstore.model.User user = userDao.getById(id);
 		model.addAttribute("user", user);
 		return "register";
 	}
