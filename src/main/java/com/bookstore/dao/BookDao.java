@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bookstore.model.Book;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BookDao extends JpaRepository<Book, Integer>{
 
 	public Book getById(int id);
