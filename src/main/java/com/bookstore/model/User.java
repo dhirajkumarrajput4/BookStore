@@ -1,21 +1,12 @@
 package com.bookstore.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Email;
-
 @Entity
+@Table(name = "app_user")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +16,7 @@ public class User {
 	@Size(min = 3, message = "Minimum 3 charectors are required")
 	private String lastName;
 	@Email(message = "Invailed Email!! Enter a valid Email")
+	@Column(name = "emailId")
 	private String email;
 	@Size(min = 8, message = "Minimum 8 charectors are required")
 	private String password;
